@@ -3,7 +3,6 @@
 
 import machine
 
-
 class Motor:
 
     def __init__(self, pin1, pin2):

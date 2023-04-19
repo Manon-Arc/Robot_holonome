@@ -6,7 +6,8 @@
 
 import network
 import socket
-#from deplacement import Move
+from deplacement import Move
+from motor import Motor
 
 
 def display_ap_info(ap):
@@ -292,6 +293,11 @@ def web_page():
 </script>
 </html>"""
 
+moteur_1 = Motor(16, 17)
+moteur_2 = Motor(18, 5)
+moteur_3 = Motor(14, 27)
+moteur_4 = Motor(26, 25)
+movement = Move(16, 17, 18, 5, 14, 27, 26, 25)
 
 def main():
     my_ap = network.WLAN(network.AP_IF)
@@ -310,71 +316,45 @@ def main():
         print('Content = %s' % str(request))
         request_str = str(request)
 
-        ## Extraire les données de la requête POST
-        #request_str = request.decode('utf-8')
-        #request_lines = request_str.split('\r\n')
-        #request_data = request_lines[-1]
-#
-        ## Analyser les données de la requête POST
-        #parsed_data = urllib.parse.parse_qs(request_data)
-        #joystick_value = parsed_data['joystick'][0]
-#
-        #print("value", joystick_value)
-#
-        #button_av = request.find('joystick=av')
-        #button_avg = request.find('joystick=avg')
-        #button_g = request.find('joystick=g')
-        #button_arg = request.find('joystick=arg')
-        #button_ar = request.find('joystick=ar')
-        #button_ard = request.find('joystick=ard')
-        #button_d = request.find('joystick=d')
-        #button_avd = request.find('joystick=avd')
-        #button_st = request.find('joystick=st')
-        #print("REQUEST", request)
-        #print("av", button_av)
-        #print("avg", button_g)
-        #print("g", button_av)
-        #print("arg", button_g)
-        #print("ar", button_av)
-        #print("ard", button_g)
-        #print("d", button_av)
-        #print("avd", button_g)
-
-        if "joystick=av" in request_str:
-            print("av")
-            # movement.mov("av")
-
-        elif "joystick=avg" in request_str:
+        if "joystick=avg" in request_str:
             print("avg")
-            # movement.mov("avg")
-
-        elif "joystick=av" in request_str:
-            print("g")
-            # movement.mov("g")
-
-        elif "joystick=arg" in request_str:
-            print("arg")
-            # movement.mov("arg")
-
-        elif "joystick=ar" in request_str:
-            print("ar")
-            # movement.mov("ar")
-
-        elif "joystick=ard" in request_str:
-            print("ard")
-            # movement.mov("ard")
-
-        elif "joystick=d" in request_str:
-            print("d")
-            # movement.mov("d")
+            movement.mov("avg")
 
         elif "joystick=avd" in request_str:
             print("avd")
-            # movement.mov("avd")
+            movement.mov("avd")
+
+        elif "joystick=av" in request_str:
+            print("av")
+            movement.mov("av")
+
+        elif "joystick=g" in request_str:
+            print("g")
+            movement.mov("g")
+
+        elif "joystick=arg" in request_str:
+            print("arg")
+            movement.mov("arg")
+
+        elif "joystick=ard" in request_str:
+            print("ard")
+            movement.mov("ard")
+
+        elif "joystick=ar" in request_str:
+            print("ar")
+            movement.mov("ar")
+
+        elif "joystick=d" in request_str:
+            print("d")
+            movement.mov("d")
+
+        elif "joystick=g" in request_str:
+            print("g")
+            movement.mov("g")
 
         elif "joystick=st" in request_str:
             print("stop")
-            # movement.mov("stop")
+            movement.mov("stop")
         else:
             print('No action')
 
@@ -386,113 +366,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-'''
-#from /js/joystick import direction
-
-try:
-    import usocket as socket
-except:
-    import socket
-
-import esp
-
-import network
-
-esp.osdebug(None)
-
-import gc
-
-gc.collect()
-
-accesspoint_name = 'holonome'
-password = 'control'
-
-serv = network.WLAN(network.AP_IF)
-if serv.active():
-    serv.active(False)
-
-serv.active(True)
-serv.config(essid=accesspoint_name, password=password)
-
-while not serv.isconnected():
-    pass
-
-print('Connection successful')
-print(serv.ifconfig())
-
-def web_page():
-    html = """
-
-"""
-    return html
-
-def main():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind(('', 80))
-    s.listen(5)
-
-    movement = Move(1, 2, 3, 4, 5, 6, 7, 8)
-
-    while True:
-        conn, addr = s.accept()
-        print('Got a connection from %s' % str(addr))
-        request = conn.recv(1024)
-        print('Content = %s' % str(request))
-        request = str(request)
-        #button_av = request.find('/?button=av')
-        #button_avg = request.find('/?button=avg')
-        #button_g = request.find('/?button=g')
-        #button_arg = request.find('/?button=arg')
-        #button_ar = request.find('/?button=ar')
-        #button_ard = request.find('/?button=ard')
-        #button_d = request.find('/?button=d')
-        #button_avd = request.find('/?button=avd')
-        #button_st = request.find('/?button=st')
-        #if direction == "av":
-        #    print("av")
-        #    movement.mov("av")
-#
-        #elif direction == "avg":
-        #    print("avg")
-        #    movement.mov("avg")
-#
-        #elif direction == "g":
-        #    print("g")
-        #    movement.mov("g")
-#
-        #elif direction == "arg":
-        #    print("arg")
-        #    movement.mov("arg")
-#
-        #elif direction == "ar":
-        #    print("ar")
-        #    movement.mov("ar")
-#
-        #elif direction == "ard":
-        #    print("ard")
-        #    movement.mov("ard")
-#
-        #elif direction == "d":
-        #    print("d")
-        #    movement.mov("d")
-#
-        #elif direction == "avd":
-        #    print("avd")
-        #    movement.mov("avd")
-        #
-        #elif direction == "stop":
-        #    print("stop")
-        #    movement.mov("stop")
-        #else:
-        #    print('No action')
-        response = web_page()
-        conn.send('HTTP/1.1 200 OK\n')
-        conn.send('Content-Type: text/html\n')
-        conn.send('Connection: close\n\n')
-        conn.sendall(response)
-        conn.close()
-
-'''
 

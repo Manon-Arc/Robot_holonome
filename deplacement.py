@@ -1,6 +1,6 @@
 from motor import Motor
 
-class Move:
+class Move(object):
     def __init__(self, m1p1, m1p2, m2p1, m2p2, m3p1, m3p2, m4p1, m4p2):
         self.moteur1 = Motor(m1p1, m1p2)
         self.moteur2 = Motor(m2p1, m2p2)
@@ -28,8 +28,8 @@ class Move:
             moteur.pin1.value(0)
             moteur.pin2.value(1)
         elif sens == "libre":
-            moteur.pin1(0)
-            moteur.pin2(0)
+            moteur.pin1.value(0)
+            moteur.pin2.value(0)
         elif sens == "stop":
             moteur.pin1.value(1)
             moteur.pin2.value(1)
@@ -39,3 +39,4 @@ class Move:
         self.msens(self.MoteurDir[dire][1], self.moteur2)
         self.msens(self.MoteurDir[dire][2], self.moteur3)
         self.msens(self.MoteurDir[dire][3], self.moteur4)
+
