@@ -180,6 +180,47 @@ def web_page():
     .affichage_vitesse {
         margin-bottom: 50%;
     }
+
+    .rota {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+        margin-top: 5vh;
+    }
+    .rotationD {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 8vh;
+        height: 8vh;
+        border: solid;
+        border-width: 2px;
+        border-color: rgb(69, 69, 69);
+        border-radius: 30%;
+    }
+
+    .rotationD img {
+        width: 6vh;
+    }
+
+    .rotationG {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:8vh;
+        height: 8vh;
+        border: solid;
+        border-width: 2px;
+        border-color: rgb(69, 69, 69);
+        border-radius: 30%;
+    }
+    .rotationG img {
+        width: 6vh;
+    }
+
 </style>
 
 <body>
@@ -193,31 +234,48 @@ def web_page():
                 <span id="sliderValue"></span>
                 <div class="slidecontent">
                     <input type="range" min="0" max="100" value="0" step="1" class="slider" id="myRange" name="slider"
-                        onchange=''>
+                    onchange='sendRequest("POST", "/manette", "speed", "value")'>
                     <input type="hidden" name="speed" class="slider_speed" value="">
                 </div>
             </div>
         </div>
         <div class="joystick">
-            <div class="button av" id="av" onmouseenter="sens('av')"; onclick="sendRequest('POST', '/manette', 'joystick', 'av' )" >
+            <div class="button av" id="av" onmouseenter="sens('av')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'av' )">
             </div>
-            <div class="button avg" onmouseenter="sens('avg')"; onclick="sendRequest('POST', '/manette', 'joystick', 'avg' )" >
+            <div class="button avg" onmouseenter="sens('avg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'avg' )">
             </div>
-            <div class="button g" onmouseenter="sens('g')"; onclick="sendRequest('POST', '/manette', 'joystick', 'g' )" >
+            <div class="button g" onmouseenter="sens('g')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'g' )">
             </div>
-            <div class="button arg" onmouseenter="sens('arg')"; onclick="sendRequest('POST', '/manette', 'joystick', 'arg' )" >
+            <div class="button arg" onmouseenter="sens('arg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'arg' )">
             </div>
-            <div class="button ar" onmouseenter="sens('ar')"; onclick="sendRequest('POST', '/manette', 'joystick', 'ar' )" >
+            <div class="button ar" onmouseenter="sens('ar')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'ar' )">
             </div>
-            <div class="button ard" onmouseenter="sens('ard')"; onclick="sendRequest('POST', '/manette', 'joystick', 'ard' )" >
+            <div class="button ard" onmouseenter="sens('ard')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'ard' )">
             </div>
-            <div class="button d" onmouseenter="sens('d')"; onclick="sendRequest('POST', '/manette', 'joystick', 'd' )" >
+            <div class="button d" onmouseenter="sens('d')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'd' )">
             </div>
-            <div class="button avd" onmouseenter="sens('avd')"; onclick="sendRequest('POST', '/manette', 'joystick', 'avd' )" >
+            <div class="button avd" onmouseenter="sens('avd')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'avd' )">
             </div>
-            <div class="button center" onmouseenter="sens('st')"; onclick="sendRequest('POST', '/manette', 'joystick', 'st' )" >
+            <div class="button center" onmouseenter="sens('st')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'st' )">
             </div>
             <div class="cursor">
+            </div>
+        </div>
+        <div class="rota">
+            <div class="rotationG" value=rota onclick="sendRequest('POST', '/manette', 'joystick', 'rotag' )">
+                <img src="/static/img/rotating-arrow-to-the-left .png" alt="">
+            </div>
+            <div class="rotationD" value=rota onclick="sendRequest('POST', '/manette', 'joystick', 'rotad' )">
+                <img src="/static/img/rotating-arrow-to-the-right.png" alt="">
             </div>
         </div>
     </div>
@@ -272,25 +330,26 @@ def web_page():
     const slider = document.getElementById("myRange");
     const output = document.getElementById("sliderValue");
     slider.addEventListener("input", function () {
-    const value = slider.value;
-    output.innerHTML = value;
+        const value = slider.value;
+        output.innerHTML = value;
     });
 </script>
 <script>
     function sendRequest(method, type, name, dir) {
-    console.log("send")
-    // Init un variable de requête
-    let xhttp = new XMLHttpRequest();
-    let url = "";
-    // Donne les paramètres de la requête   ("methode", "action", true|false(Async))
-    xhttp.open(method, url, true);
-    // Informe que l'envoie correspond à un envoie de form (des données sont envoyées)
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // Donne les informations "name"="value"&"name2"="value2"   pour récuperer la value c'est comme avec un input from("name")
-    xhttp.send(`${name}=${dir}`);
-    console.log("send dir")
-}
+        console.log("send")
+        // Init un variable de requête
+        let xhttp = new XMLHttpRequest();
+        let url = "";
+        // Donne les paramètres de la requête   ("methode", "action", true|false(Async))
+        xhttp.open(method, url, true);
+        // Informe que l'envoie correspond à un envoie de form (des données sont envoyées)
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // Donne les informations "name"="value"&"name2"="value2"   pour récuperer la value c'est comme avec un input from("name")
+        xhttp.send(`${name}=${dir}`);
+        console.log("send dir")
+    }
 </script>
+
 </html>"""
 
 moteur_1 = Motor(16, 17)
@@ -355,6 +414,14 @@ def main():
         elif "joystick=st" in request_str:
             print("stop")
             movement.mov("stop")
+
+        elif "joystick=rotad" in request_str:
+            print("rotad")
+            movement.mov("rotad")
+
+        elif "joystick=rotag" in request_str:
+            print("rotag")
+            movement.mov("rotag")
         else:
             print('No action')
 

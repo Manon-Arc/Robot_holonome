@@ -11,13 +11,13 @@ class Move(object):
                           "ar": ["arriere", "arriere", "arriere", "arriere"],
                           "g": ["avant", "arriere", "arriere", "avant"],
                           "d": ["arriere", "avant", "avant", "arriere"],
-                          "davd": ["libre", "avant", "avant", "libre"],
-                          "davg": ["avant", "libre", "libre", "avant"],
-                          "dard": ["arriere", "libre", "libre", "arriere"],
-                          "darg": ["libre", "arriere", "arriere", "libre"],
-                          "off": ["libre", "libre", "libre", "libre"],
-                          "fh": ["avant", "arriere", "avant", "arriere"],
-                          "fah": ["arriere", "avant", "arriere", "avant"],
+                          "davd": ["stop", "avant", "avant", "stop"],
+                          "davg": ["avant", "stop", "stop", "avant"],
+                          "dard": ["arriere", "stop", "stop", "arriere"],
+                          "darg": ["stop", "arriere", "arriere", "stop"],
+                          "off": ["stop", "stop", "stop", "stop"],
+                          "rotad": ["avant", "arriere", "avant", "arriere"],
+                          "rotag": ["arriere", "avant", "arriere", "avant"],
                           "stop": ["stop", "stop", "stop", "stop"]}
 
     def msens(self, sens, moteur):
@@ -27,9 +27,6 @@ class Move(object):
         elif sens == "arriere":
             moteur.pin1.value(0)
             moteur.pin2.value(1)
-        elif sens == "libre":
-            moteur.pin1.value(0)
-            moteur.pin2.value(0)
         elif sens == "stop":
             moteur.pin1.value(1)
             moteur.pin2.value(1)
@@ -39,4 +36,3 @@ class Move(object):
         self.msens(self.MoteurDir[dire][1], self.moteur2)
         self.msens(self.MoteurDir[dire][2], self.moteur3)
         self.msens(self.MoteurDir[dire][3], self.moteur4)
-
