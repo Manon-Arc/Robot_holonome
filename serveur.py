@@ -243,26 +243,26 @@ def web_page():
             <div class="button av" id="av" onmouseenter="sens('av')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'av' )">
             </div>
-            <div class="button avg" onmouseenter="sens('avg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'avg' )">
+            <div class="button avg" onmouseenter="sens('davg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'davg' )">
             </div>
             <div class="button g" onmouseenter="sens('g')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'g' )">
             </div>
-            <div class="button arg" onmouseenter="sens('arg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'arg' )">
+            <div class="button arg" onmouseenter="sens('darg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'darg' )">
             </div>
             <div class="button ar" onmouseenter="sens('ar')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'ar' )">
             </div>
-            <div class="button ard" onmouseenter="sens('ard')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'ard' )">
+            <div class="button ard" onmouseenter="sens('dard')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'dard' )">
             </div>
             <div class="button d" onmouseenter="sens('d')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'd' )">
             </div>
-            <div class="button avd" onmouseenter="sens('avd')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'avd' )">
+            <div class="button avd" onmouseenter="sens('davd')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'davd' )">
             </div>
             <div class="button center" onmouseenter="sens('st')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'st' )">
@@ -375,41 +375,37 @@ def main():
         print('Content = %s' % str(request))
         request_str = str(request)
 
-        if "joystick=avg" in request_str:
-            print("avg")
-            movement.mov("avg")
+        if "joystick=davg" in request_str:
+            print("davg")
+            movement.mov("davg")
 
-        elif "joystick=avd" in request_str:
-            print("avd")
-            movement.mov("avd")
+        elif "joystick=davd" in request_str:
+            print("davd")
+            movement.mov("davd")
 
         elif "joystick=av" in request_str:
             print("av")
             movement.mov("av")
 
-        elif "joystick=g" in request_str:
-            print("g")
-            movement.mov("g")
-
-        elif "joystick=arg" in request_str:
-            print("arg")
-            movement.mov("arg")
-
-        elif "joystick=ard" in request_str:
-            print("ard")
-            movement.mov("ard")
-
         elif "joystick=ar" in request_str:
             print("ar")
             movement.mov("ar")
+
+        elif "joystick=g" in request_str:
+            print("g")
+            movement.mov("g")
 
         elif "joystick=d" in request_str:
             print("d")
             movement.mov("d")
 
-        elif "joystick=g" in request_str:
-            print("g")
-            movement.mov("g")
+        elif "joystick=darg" in request_str:
+            print("darg")
+            movement.mov("darg")
+
+        elif "joystick=dard" in request_str:
+            print("dard")
+            movement.mov("dard")
 
         elif "joystick=st" in request_str:
             print("stop")
