@@ -243,28 +243,28 @@ def web_page():
             <div class="button av" id="av" onmouseenter="sens('av')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'av' )">
             </div>
-            <div class="button avg" onmouseenter="sens('davg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'davg' )">
+            <div class="button avg" id="avg" onmouseenter="sens('avg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'avg' )">
             </div>
-            <div class="button g" onmouseenter="sens('g')" ;
+            <div class="button g" id="g" onmouseenter="sens('g')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'g' )">
             </div>
-            <div class="button arg" onmouseenter="sens('darg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'darg' )">
+            <div class="button arg" id="arg" onmouseenter="sens('arg')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'arg' )">
             </div>
-            <div class="button ar" onmouseenter="sens('ar')" ;
+            <div class="button ar" id="ar" onmouseenter="sens('ar')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'ar' )">
             </div>
-            <div class="button ard" onmouseenter="sens('dard')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'dard' )">
+            <div class="button ard" id="ard" onmouseenter="sens('ard')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'ard' )">
             </div>
-            <div class="button d" onmouseenter="sens('d')" ;
+            <div class="button d" id="d" onmouseenter="sens('d')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'd' )">
             </div>
-            <div class="button avd" onmouseenter="sens('davd')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'davd' )">
+            <div class="button avd" id="avd" onmouseenter="sens('avd')" ;
+                onclick="sendRequest('POST', '/manette', 'joystick', 'avd' )">
             </div>
-            <div class="button center" onmouseenter="sens('st')" ;
+            <div class="button center" id="center" onmouseenter="sens('st')" ;
                 onclick="sendRequest('POST', '/manette', 'joystick', 'st' )">
             </div>
             <div class="cursor">
@@ -281,6 +281,21 @@ def web_page():
     </div>
 </body>
 <script>
+    let lastDir = "center";
+    let av = document.getElementById("av").getBoundingClientRect();
+    let avg = document.getElementById("avg").getBoundingClientRect();
+    let g = document.getElementById("g").getBoundingClientRect();
+    let arg = document.getElementById("arg").getBoundingClientRect();
+    let ar = document.getElementById("ar").getBoundingClientRect();
+    let ard = document.getElementById("ard").getBoundingClientRect();
+    let d = document.getElementById("d").getBoundingClientRect();
+    let avd = document.getElementById("avd").getBoundingClientRect();
+    let center = document.getElementById("center").getBoundingClientRect();
+
+    function InDiv(div,x,y){
+        return x > div.left && x < div.right && y > div.top && y < div.bottom;
+    }
+
     let direction;
     const sens = (sens) => {
         direction = `${sens}`
@@ -315,13 +330,46 @@ def web_page():
         if (cursor_pos.left < joystick_pos.left) {
             cursor.style.left = `${cursor.scrollWidth / 2}px`;
         }
-    }
+
+        let centreY = cursor_pos.top + cursor.scrollHeight/2;
+        let centreX = cursor_pos.left + cursor.scrollWidth/2;
+
+        if(InDiv(av,centreX,centreY) && lastDir != "av"){
+            lastDir = "av";
+            sendRequest('POST', '/manette', 'joystick', 'av' )
+        } else if(InDiv(avg,centreX,centreY) && lastDir != "davg"){
+            lastDir = "davg";
+            sendRequest('POST', '/manette', 'joystick', 'davg' )
+        } else if(InDiv(g,centreX,centreY) && lastDir != "g"){
+            lastDir = "g";
+            sendRequest('POST', '/manette', 'joystick', 'g' )
+        } else if(InDiv(arg,centreX,centreY) && lastDir != "darg"){
+            lastDir = "darg";
+            sendRequest('POST', '/manette', 'joystick', 'darg' )
+        } else if(InDiv(ar,centreX,centreY) && lastDir != "ar"){
+            lastDir = "ar";
+            sendRequest('POST', '/manette', 'joystick', 'ar' )
+        } else if(InDiv(ard,centreX,centreY) && lastDir != "dard"){
+            lastDir = "dard";
+            sendRequest('POST', '/manette', 'joystick', 'dard' )
+        } else if(InDiv(d,centreX,centreY) && lastDir != "d"){
+            lastDir = "d";
+            sendRequest('POST', '/manette', 'joystick', 'd' )
+        }  else if(InDiv(avd,centreX,centreY) && lastDir != "davd"){
+            lastDir = "davd";
+            sendRequest('POST', '/manette', 'joystick', 'davd' )
+        }  else if(InDiv(center,centreX,centreY) && lastDir != "st"){
+            lastDir = "st";
+            sendRequest('POST', '/manette', 'joystick', 'st' )
+        }
+        }
     )
 
     document.body.addEventListener('touchend', (e) => {
         let cursor = document.querySelector(".cursor");
         cursor.style.left = `50%`;
         cursor.style.top = `50%`;
+        sendRequest('POST', '/manette', 'joystick', 'st' )
     }
     )
 
