@@ -381,7 +381,7 @@ def web_page():
 
 moteur_1 = Motor(16, 17)
 moteur_2 = Motor(18, 5)
-moteur_3 = Motor(14, 27)
+moteur_3 = Motor(27, 14)
 moteur_4 = Motor(26, 25)
 movement = Move(16, 17, 18, 5, 14, 27, 26, 25)
 
@@ -428,10 +428,6 @@ def main():
             print("g")
             movement.mov("g")
 
-        elif "joystick=d" in request_str:
-            print("d")
-            movement.mov("d")
-
         elif "joystick=darg" in request_str:
             print("darg")
             movement.mov("darg")
@@ -439,6 +435,10 @@ def main():
         elif "joystick=dard" in request_str:
             print("dard")
             movement.mov("dard")
+
+        elif "joystick=d" in request_str:
+            print("d")
+            movement.mov("d")
 
         elif "joystick=st" in request_str:
             print("stop")
