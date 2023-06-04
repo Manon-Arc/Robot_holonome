@@ -206,7 +206,7 @@
 <body>
     <div class="page">
         <div class="head">
-            <h1>Motor control :</h1>
+            <h1 id="direc">Motor control :</h1>
         </div>
         <div class="vitesse">
             <div class="affichage_vitesse">
@@ -220,35 +220,16 @@
             </div>
         </div>
         <div class="joystick">
-            <div class="button av" id="av" onmouseenter="sens('av')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'av' )">
-            </div>
-            <div class="button avg" id="avg" onmouseenter="sens('avg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'avg' )">
-            </div>
-            <div class="button g" id="g" onmouseenter="sens('g')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'g' )">
-            </div>
-            <div class="button arg" id="arg" onmouseenter="sens('arg')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'arg' )">
-            </div>
-            <div class="button ar" id="ar" onmouseenter="sens('ar')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'ar' )">
-            </div>
-            <div class="button ard" id="ard" onmouseenter="sens('ard')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'ard' )">
-            </div>
-            <div class="button d" id="d" onmouseenter="sens('d')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'd' )">
-            </div>
-            <div class="button avd" id="avd" onmouseenter="sens('avd')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'avd' )">
-            </div>
-            <div class="button center" id="center" onmouseenter="sens('st')" ;
-                onclick="sendRequest('POST', '/manette', 'joystick', 'st' )">
-            </div>
-            <div class="cursor">
-            </div>
+            <div class="button av" id="av"></div>
+            <div class="button avg" id="avg"></div>
+            <div class="button g" id="g"></div>
+            <div class="button arg" id="arg"></div>
+            <div class="button ar" id="ar"></div>
+            <div class="button ard" id="ard"></div>
+            <div class="button d" id="d"></div>
+            <div class="button avd" id="avd"></div>
+            <div class="button center" id="center"></div>
+            <div class="cursor"></div>
         </div>
         <div class="rota">
             <div class="rotationG" value=rota onclick="sendRequest('POST', '/manette', 'joystick', 'rotag' )">
@@ -261,7 +242,8 @@
     </div>
 </body>
 <script>
-    let lastDir = "center";
+    let lastDir = "st";
+    let pre = document.getElementById("direc");
     let av = document.getElementById("av").getBoundingClientRect();
     let avg = document.getElementById("avg").getBoundingClientRect();
     let g = document.getElementById("g").getBoundingClientRect();
@@ -276,19 +258,14 @@
         return x > div.left && x < div.right && y > div.top && y < div.bottom;
     }
 
-    let direction;
-    const sens = (sens) => {
-        direction = `${sens}`
-        console.log(sens)
-        return direction
-        // envoyer dir en back
-    }
     const lache_clique = (e) => {
         e.style.left = "50%";
         e.style.top = "50%";
     }
+
     const joystick = document.querySelector(".joystick")
     const necessaire = joystick.scrollWidth;
+
     document.body.addEventListener('touchmove', (e) => {
         let xP = e.touches[0].clientX
         let yP = e.touches[0].clientY
@@ -316,42 +293,42 @@
 
         if(InDiv(av,centreX,centreY) && lastDir != "av"){
             lastDir = "av";
-            sendRequest('POST', '/manette', 'joystick', 'av' )
+            sendRequest('GET', '/manette', 'joystick', 'av' )
         } else if(InDiv(avg,centreX,centreY) && lastDir != "davg"){
             lastDir = "davg";
-            sendRequest('POST', '/manette', 'joystick', 'davg' )
+            sendRequest('GET', '/manette', 'joystick', 'davg' )
         } else if(InDiv(g,centreX,centreY) && lastDir != "g"){
             lastDir = "g";
-            sendRequest('POST', '/manette', 'joystick', 'g' )
+            sendRequest('GET', '/manette', 'joystick', 'g' )
         } else if(InDiv(arg,centreX,centreY) && lastDir != "darg"){
             lastDir = "darg";
-            sendRequest('POST', '/manette', 'joystick', 'darg' )
+            sendRequest('GET', '/manette', 'joystick', 'darg' )
         } else if(InDiv(ar,centreX,centreY) && lastDir != "ar"){
             lastDir = "ar";
-            sendRequest('POST', '/manette', 'joystick', 'ar' )
+            sendRequest('GET', '/manette', 'joystick', 'ar' )
         } else if(InDiv(ard,centreX,centreY) && lastDir != "dard"){
             lastDir = "dard";
-            sendRequest('POST', '/manette', 'joystick', 'dard' )
+            sendRequest('GET', '/manette', 'joystick', 'dard' )
         } else if(InDiv(d,centreX,centreY) && lastDir != "d"){
             lastDir = "d";
-            sendRequest('POST', '/manette', 'joystick', 'd' )
+            sendRequest('GET', '/manette', 'joystick', 'd' )
         }  else if(InDiv(avd,centreX,centreY) && lastDir != "davd"){
             lastDir = "davd";
-            sendRequest('POST', '/manette', 'joystick', 'davd' )
+            sendRequest('GET', '/manette', 'joystick', 'davd' )
         }  else if(InDiv(center,centreX,centreY) && lastDir != "st"){
             lastDir = "st";
-            sendRequest('POST', '/manette', 'joystick', 'st' )
+            sendRequest('GET', '/manette', 'joystick', 'st' )
         }
-        }
-    )
+    });
 
     document.body.addEventListener('touchend', (e) => {
         let cursor = document.querySelector(".cursor");
         cursor.style.left = `50%`;
         cursor.style.top = `50%`;
-        sendRequest('POST', '/manette', 'joystick', 'st' )
-    }
-    )
+        lastDir = "st";
+        pre.innerHTML = lastDir;
+        sendRequest('GET', '/manette', 'joystick', 'st' )
+    });
 
 </script>
 <script>
@@ -367,14 +344,15 @@
         console.log("send")
         // Init un variable de requête
         let xhttp = new XMLHttpRequest();
-        let url = "";
+        let url = "/";
         // Donne les paramètres de la requête   ("methode", "action", true|false(Async))
-        xhttp.open(method, url, true);
+        xhttp.open(method, url + `?${name}=${dir}`, true);
         // Informe que l'envoie correspond à un envoie de form (des données sont envoyées)
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         // Donne les informations "name"="value"&"name2"="value2"   pour récuperer la value c'est comme avec un input from("name")
         xhttp.send(`${name}=${dir}`);
-        console.log("send dir")
+        pre.innerHTML = dir;
+        console.log("send dir" + dir)
     }
 </script>
 

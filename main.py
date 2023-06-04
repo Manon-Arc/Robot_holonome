@@ -360,13 +360,13 @@ def web_page():
     });
 </script>
 <script>
-    function sendRequest(method, type, name, dir) {
+     function sendRequest(method, type, name, dir) {
         console.log("send")
         // Init un variable de requête
         let xhttp = new XMLHttpRequest();
-        let url = "";
+        let url = "/";
         // Donne les paramètres de la requête   ("methode", "action", true|false(Async))
-        xhttp.open(method, url, true);
+        xhttp.open(method, url + `?${name}=${dir}`, true);
         // Informe que l'envoie correspond à un envoie de form (des données sont envoyées)
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         // Donne les informations "name"="value"&"name2"="value2"   pour récuperer la value c'est comme avec un input from("name")
@@ -400,9 +400,13 @@ def main():
 
         conn, addr = my_socket.accept()
         print('Got a connection from %s' % str(addr))
-        request = conn.recv(1024)
-        request_str = str(request)
-        print('request = ' + request_str + 'end request')
+        try:
+            request = conn.recv(1024)
+            request_str = str(request)
+            print('request = ' + request_str + 'end request')
+        except:
+            print("err request")
+            request_str = "error"
 
         if "joystick=davg" in request_str:
             print("davg")
@@ -450,9 +454,12 @@ def main():
         else:
             print('No action')
 
-        response = web_page()
-        conn.write("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
-        conn.send(response)
+        try:
+            response = web_page()
+            conn.write("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
+            conn.send(response)
+        except:
+            print("erreur response")
         conn.close()
 
 
