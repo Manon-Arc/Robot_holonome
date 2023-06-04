@@ -1,23 +1,3 @@
-# html + css autre fichier
-# envoyer en back dir
-# afficher variable dir en temps réel
-# controler vitesse
-# front manette
-
-import network
-import socket
-from deplacement import Move
-from motor import Motor
-
-
-def display_ap_info(ap):
-    print("\nLocal IP: {}\nSubnet mask: {}\nIP Gateway: {}\nDNS:{}".format(*ap.ifconfig()))
-    print("SSID: {}\nChannel: {}".format(ap.config("essid"), ap.config("channel")))
-    print("BSSID: {:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}".format(*ap.config("mac")))
-
-
-def web_page():
-    return """
 <!DOCTYPE html>
 <html lang="en">
 
@@ -281,21 +261,15 @@ def web_page():
     </div>
 </body>
 <script>
-    let lastDir = "center";
-    let av = document.getElementById("av").getBoundingClientRect();
-    let avg = document.getElementById("avg").getBoundingClientRect();
-    let g = document.getElementById("g").getBoundingClientRect();
-    let arg = document.getElementById("arg").getBoundingClientRect();
-    let ar = document.getElementById("ar").getBoundingClientRect();
-    let ard = document.getElementById("ard").getBoundingClientRect();
-    let d = document.getElementById("d").getBoundingClientRect();
-    let avd = document.getElementById("avd").getBoundingClientRect();
-    let center = document.getElementById("center").getBoundingClientRect();
-
-    function InDiv(div,x,y){
-        return x > div.left && x < div.right && y > div.top && y < div.bottom;
-    }
-
+    let av = document.getElementById("av")
+    let avg = document.getElementById("avg")
+    let g = document.getElementById("g")
+    let arg = document.getElementById("arg")
+    let ar = document.getElementById("ar")
+    let ard = document.getElementById("ard")
+    let d = document.getElementById("d")
+    let avd = document.getElementById("avd")
+    let center = document.getElementById("av")
     let direction;
     const sens = (sens) => {
         direction = `${sens}`
@@ -330,46 +304,13 @@ def web_page():
         if (cursor_pos.left < joystick_pos.left) {
             cursor.style.left = `${cursor.scrollWidth / 2}px`;
         }
-
-        let centreY = cursor_pos.top + cursor.scrollHeight/2;
-        let centreX = cursor_pos.left + cursor.scrollWidth/2;
-
-        if(InDiv(av,centreX,centreY) && lastDir != "av"){
-            lastDir = "av";
-            sendRequest('POST', '/manette', 'joystick', 'av' )
-        } else if(InDiv(avg,centreX,centreY) && lastDir != "davg"){
-            lastDir = "davg";
-            sendRequest('POST', '/manette', 'joystick', 'davg' )
-        } else if(InDiv(g,centreX,centreY) && lastDir != "g"){
-            lastDir = "g";
-            sendRequest('POST', '/manette', 'joystick', 'g' )
-        } else if(InDiv(arg,centreX,centreY) && lastDir != "darg"){
-            lastDir = "darg";
-            sendRequest('POST', '/manette', 'joystick', 'darg' )
-        } else if(InDiv(ar,centreX,centreY) && lastDir != "ar"){
-            lastDir = "ar";
-            sendRequest('POST', '/manette', 'joystick', 'ar' )
-        } else if(InDiv(ard,centreX,centreY) && lastDir != "dard"){
-            lastDir = "dard";
-            sendRequest('POST', '/manette', 'joystick', 'dard' )
-        } else if(InDiv(d,centreX,centreY) && lastDir != "d"){
-            lastDir = "d";
-            sendRequest('POST', '/manette', 'joystick', 'd' )
-        }  else if(InDiv(avd,centreX,centreY) && lastDir != "davd"){
-            lastDir = "davd";
-            sendRequest('POST', '/manette', 'joystick', 'davd' )
-        }  else if(InDiv(center,centreX,centreY) && lastDir != "st"){
-            lastDir = "st";
-            sendRequest('POST', '/manette', 'joystick', 'st' )
-        }
-        }
+    }
     )
 
     document.body.addEventListener('touchend', (e) => {
         let cursor = document.querySelector(".cursor");
         cursor.style.left = `50%`;
         cursor.style.top = `50%`;
-        sendRequest('POST', '/manette', 'joystick', 'st' )
     }
     )
 
@@ -398,83 +339,4 @@ def web_page():
     }
 </script>
 
-</html>"""
-
-moteur_1 = Motor(16, 17)
-moteur_2 = Motor(18, 5)
-moteur_3 = Motor(14, 27)
-moteur_4 = Motor(26, 25)
-movement = Move(16, 17, 18, 5, 14, 27, 26, 25)
-
-def main():
-    my_ap = network.WLAN(network.AP_IF)
-    my_ap.active(True)
-    my_ap.config(essid='ESP-AP', authmode=network.AUTH_WPA_WPA2_PSK, password='123456789')
-    display_ap_info(my_ap)
-
-    my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    my_socket.bind(('', 80))
-    my_socket.listen(5)
-
-    while True:
-        conn, addr = my_socket.accept()
-        print('Got a connection from %s' % str(addr))
-        request = conn.recv(1024)
-        print('Content = %s' % str(request))
-        request_str = str(request)
-
-        if "joystick=davg" in request_str:
-            print("davg")
-            movement.mov("davg")
-
-        elif "joystick=davd" in request_str:
-            print("davd")
-            movement.mov("davd")
-
-        elif "joystick=av" in request_str:
-            print("av")
-            movement.mov("av")
-
-        elif "joystick=ar" in request_str:
-            print("ar")
-            movement.mov("ar")
-
-        elif "joystick=g" in request_str:
-            print("g")
-            movement.mov("g")
-
-        elif "joystick=d" in request_str:
-            print("d")
-            movement.mov("d")
-
-        elif "joystick=darg" in request_str:
-            print("darg")
-            movement.mov("darg")
-
-        elif "joystick=dard" in request_str:
-            print("dard")
-            movement.mov("dard")
-
-        elif "joystick=st" in request_str:
-            print("stop")
-            movement.mov("stop")
-
-        elif "joystick=rotad" in request_str:
-            print("rotad")
-            movement.mov("rotad")
-
-        elif "joystick=rotag" in request_str:
-            print("rotag")
-            movement.mov("rotag")
-        else:
-            print('No action')
-
-        response = web_page()
-        conn.write("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
-        conn.send(response)
-        conn.close()
-
-
-if __name__ == "__main__":
-    main()
-
+</html>
