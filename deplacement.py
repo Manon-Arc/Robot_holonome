@@ -6,7 +6,6 @@ class Move(object):
         self.moteur2 = Motor(m2p1, m2p2)
         self.moteur3 = Motor(m3p1, m3p2)
         self.moteur4 = Motor(m4p1, m4p2)
-
         self.MoteurDir = {"av": ["avant", "avant", "avant", "avant"],
                           "ar": ["arriere", "arriere", "arriere", "arriere"],
                           "g": ["avant", "arriere", "arriere", "avant"],
