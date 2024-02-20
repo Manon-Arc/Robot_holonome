@@ -30,7 +30,7 @@ V. [Model](#🔧-model)
 
 ## 📋 Project description
 
-Prototype of a macanum controable robot.
+Prototype of a controllable macanum robot.
 
 ## 🌟 Availables features 
 
