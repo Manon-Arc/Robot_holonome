@@ -342,14 +342,10 @@
 <script>
     function sendRequest(method, type, name, dir) {
         console.log("send")
-        // Init un variable de requête
         let xhttp = new XMLHttpRequest();
         let url = "/";
-        // Donne les paramètres de la requête   ("methode", "action", true|false(Async))
         xhttp.open(method, url + `?${name}=${dir}`, true);
-        // Informe que l'envoie correspond à un envoie de form (des données sont envoyées)
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        // Donne les informations "name"="value"&"name2"="value2"   pour récuperer la value c'est comme avec un input from("name")
         xhttp.send(`${name}=${dir}`);
         pre.innerHTML = dir;
         console.log("send dir" + dir)

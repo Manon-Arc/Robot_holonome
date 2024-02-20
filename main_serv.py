@@ -1,9 +1,3 @@
-# html + css autre fichier
-# envoyer en back dir
-# afficher variable dir en temps réel
-# controler vitesse
-# front manette
-
 import network
 import socket
 from deplacement import Move
