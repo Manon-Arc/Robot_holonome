@@ -40,3 +40,6 @@ Prototype of a controllable macanum robot.
 
 ## 🔧 Model:
 [Rolling base](https://a360.co/3wuDI2a)
+
+## 🔌 Schematic:
+[Schematic](/shema_cablage.kicad_sch)
