@@ -1,4 +1,4 @@
-# Robot holonome
+# Holonomic robot
 
 Project by  __ARCAS__ Manon
 
